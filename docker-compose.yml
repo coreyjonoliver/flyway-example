@@ -1,0 +1,26 @@
+version: "3"
+services:
+
+  flyway-example:
+    env_file: .env
+    image: flyway-example:0.1-SNAPSHOT
+    networks:
+      - backend
+    depends_on:
+      - db
+
+  db:
+    environment:
+      POSTGRES_USER: "${FLYWAY_POSTGRES_USER}"
+      POSTGRES_PASSWORD: "${FLYWAY_POSTGRES_PASSWORD}"
+    image: postgres:9.4
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    networks:
+      - backend
+
+networks:
+  backend:
+
+volumes:
+  db-data:
